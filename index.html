@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Pumpkin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            color: #5a3e36;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 105, 180, 0.3);
+            animation: float 8s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            color: #d64d7e;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #8a5a44;
+            margin-bottom: 20px;
+        }
+        
+        .apology-section {
+            background: rgba(255, 240, 245, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .apology-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .highlight {
+            color: #d64d7e;
+            font-weight: bold;
+        }
+        
+        .activities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .activity-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid transparent;
+        }
+        
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: #d64d7e;
+        }
+        
+        .activity-card.selected {
+            border-color: #d64d7e;
+            background: rgba(214, 77, 126, 0.1);
+        }
+        
+        .activity-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #d64d7e;
+        }
+        
+        .activity-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #8a5a44;
+        }
+        
+        .activity-desc {
+            font-size: 0.9rem;
+            color: #8a5a44;
+        }
+        
+        .invitation {
+            text-align: center;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .invitation-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #8a5a44;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #d64d7e, #ff7aa2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(214, 77, 126, 0.3);
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(214, 77, 126, 0.4);
+        }
+        
+        .response {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #d64d7e;
+            font-weight: bold;
+            min-height: 30px;
+        }
+        
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #8a5a44;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .activities {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="heartsContainer"></div>
+    
+    <div class="container">
+        <header>
+            <h1>For My Pumpkin 🎃❤️</h1>
+            <p class="subtitle">Pranju, this is for you...</p>
+        </header>
+        
+        <section class="apology-section">
+            <p class="apology-text">
+                My dearest <span class="highlight">Pumpkin</span>,<br><br>
+                I'm truly sorry for making you feel ignored. I was working on my gym website and lost track of time, 
+                but that's no excuse for not giving you the attention you deserve.<br><br>
+                You mean the world to me, and I want to make it up to you. Please choose one of these activities 
+                that we can do together today. I promise to be fully present and make it special for you.
+            </p>
+        </section>
+        
+        <div class="activities">
+            <div class="activity-card" data-activity="golf">
+                <div class="activity-icon">⛳</div>
+                <div class="activity-title">Play Golf</div>
+                <div class="activity-desc">Let's enjoy a relaxing game together</div>
+            </div>
+            
+            <div class="activity-card" data-activity="meal">
+                <div class="activity-icon">🍽️</div>
+                <div class="activity-title">Have a Meal</div>
+                <div class="activity-desc">Your favorite restaurant, my treat</div>
+            </div>
+            
+            <div class="activity-card" data-activity="order">
+                <div class="activity-icon">📱</div>
+                <div class="activity-title">Order Something</div>
+                <div class="activity-desc">Whatever you're craving, I'll order it</div>
+            </div>
+            
+            <div class="activity-card" data-activity="shopping">
+                <div class="activity-icon">🛍️</div>
+                <div class="activity-title">Go Shopping</div>
+                <div class="activity-desc">Let's find something special for you</div>
+            </div>
+            
+            <div class="activity-card" data-activity="flowers">
+                <div class="activity-icon">💐</div>
+                <div class="activity-title">Bring You Flowers</div>
+                <div class="activity-desc">A beautiful bouquet just for you</div>
+            </div>
+        </div>
+        
+        <section class="invitation">
+            <p class="invitation-text">I'd love to spend time with you today. Please choose one option above.</p>
+            <button class="btn" id="confirmBtn">Confirm Your Choice</button>
+            <div class="response" id="responseMessage"></div>
+        </section>
+        
+        <footer>
+            <p>Made with ❤️ for my Pumpkin - Pranju</p>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('heartsContainer');
+            const heartCount = 25;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Activity selection
+        let selectedActivity = '';
+        const activityCards = document.querySelectorAll('.activity-card');
+        
+        activityCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Remove selected class from all cards
+                activityCards.forEach(c => c.classList.remove('selected'));
+                
+                // Add selected class to clicked card
+                card.classList.add('selected');
+                
+                // Store selected activity
+                selectedActivity = card.getAttribute('data-activity');
+            });
+        });
+        
+        // Confirm button
+        document.getElementById('confirmBtn').addEventListener('click', () => {
+            const responseMessage = document.getElementById('responseMessage');
+            
+            if (!selectedActivity) {
+                responseMessage.textContent = "Please select an activity first!";
+                return;
+            }
+            
+            const activities = {
+                golf: "Playing golf together sounds perfect! I'll book us a tee time right away. ⛳",
+                meal: "A romantic meal it is! I know just the place you'll love. 🍽️",
+                order: "Let's order your favorite food and have a cozy night in! 📱",
+                shopping: "Shopping date! Can't wait to see what we find for you. 🛍️",
+                flowers: "I'll bring you the most beautiful flowers to brighten your day! 💐"
+            };
+            
+            responseMessage.textContent = activities[selectedActivity];
+            
+            // Add a sweet message after a delay
+            setTimeout(() => {
+                responseMessage.innerHTML += "<br><br>Thank you for giving me another chance, Pumpkin. I love you! ❤️";
+            }, 2000);
+        });
+        
+        // Initialize the page
+        window.onload = function() {
+            createHearts();
+        };
+    </script>
+</body>
+</html>
