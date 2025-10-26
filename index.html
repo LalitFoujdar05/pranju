@@ -220,10 +220,178 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* Floating Pumpkin Animation */
+        .floating-pumpkin {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            animation: pumpkin-float 15s ease-in-out forwards;
+            pointer-events: none;
+        }
+        
+        .pumpkin {
+            width: 80px;
+            height: 80px;
+            background: #ff9e58;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(255, 158, 88, 0.3);
+            animation: pumpkin-bounce 1s infinite alternate;
+        }
+        
+        .pumpkin::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #7c9c3c;
+            border-radius: 50% 50% 0 0;
+        }
+        
+        .pumpkin-face {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 30px;
+        }
+        
+        .pumpkin-eye {
+            position: absolute;
+            width: 10px;
+            height: 15px;
+            background: #5a3e36;
+            border-radius: 50%;
+        }
+        
+        .pumpkin-eye.left {
+            left: 5px;
+        }
+        
+        .pumpkin-eye.right {
+            right: 5px;
+        }
+        
+        .pumpkin-mouth {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 15px;
+            border-bottom: 4px solid #5a3e36;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        @keyframes pumpkin-float {
+            0% {
+                bottom: -100px;
+                left: 50%;
+                opacity: 0;
+                transform: translateX(-50%) scale(0.5);
+            }
+            10% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+            25% {
+                bottom: 30%;
+                left: 30%;
+            }
+            50% {
+                bottom: 60%;
+                left: 70%;
+            }
+            75% {
+                bottom: 40%;
+                left: 20%;
+            }
+            90% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+            100% {
+                bottom: 100vh;
+                left: 80%;
+                opacity: 0;
+                transform: translateX(-50%) scale(0.5);
+            }
+        }
+        
+        @keyframes pumpkin-bounce {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+        }
+        
+        /* Message bubble */
+        .message-bubble {
+            position: absolute;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+            max-width: 150px;
+            text-align: center;
+            opacity: 0;
+            animation: message-fade 3s 2s forwards;
+            z-index: 101;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .message-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 10px solid transparent;
+            border-top-color: white;
+        }
+        
+        @keyframes message-fade {
+            0% {
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="hearts" id="heartsContainer"></div>
+    
+    <!-- Floating Pumpkin -->
+    <div class="floating-pumpkin">
+        <div class="pumpkin">
+            <div class="pumpkin-face">
+                <div class="pumpkin-eye left"></div>
+                <div class="pumpkin-eye right"></div>
+                <div class="pumpkin-mouth"></div>
+            </div>
+        </div>
+        <div class="message-bubble">Still Annoying 😅</div>
+    </div>
     
     <div class="container">
         <header>
@@ -274,7 +442,7 @@
         </div>
         
         <section class="invitation">
-            <p class="invitation-text">I'd love to spend time with you today. Please choose one option above.</p>
+            <p class="invitation-text">I'd love to spend time with you. option choose krle or bta bhi dena 😅.</p>
             <button class="btn" id="confirmBtn">Confirm Your Choice</button>
             <div class="response" id="responseMessage"></div>
         </section>
